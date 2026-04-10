@@ -1,61 +1,58 @@
 # Task Manager - Full-Stack Deployment
 
-A simple task management application built with Node.js, Express, MySQL, and Vanilla JS.
+A production-ready task management application built with Node.js, Express, MySQL, and Vanilla JS.
+
+## Live Application
+- **Frontend:** [https://task-manage-dusky.vercel.app/](https://task-manage-dusky.vercel.app/)
+- **Backend API:** [https://task-manage-jead.onrender.com/api/tasks/](https://task-manage-jead.onrender.com/api/tasks/)
 
 ## Project Structure
 - `/backend`: Node.js Express API.
 - `/frontend`: HTML/CSS/JS client-side application.
-- `/database.sql`: MySQL schema and initial data.
+- `backend/database.sql`: MySQL schema and initial data.
 
 ## Local Setup
 
 ### 1. Database
 Import the `backend/database.sql` into your local MySQL server.
-Create a `.env` file in the `backend` directory with the following variables:
+
+### 2. Configuration
+Create a `.env` file in the `backend` directory:
 ```env
 DB_USER=root
 DB_PASSWORD=your_password
 DB_HOST=localhost
+DB_PORT=3306
 DB_NAME=task_manager
 FRONTEND_URL=http://localhost:8080
 ```
 
-### 2. Installation
+### 3. Installation & Run
 From the root directory:
 ```bash
 npm run install:all
-```
-
-### 3. Run the Application
-To run both backend and frontend concurrently:
-```bash
 npm run dev
 ```
 
-## Deployment Guide
+## Deployment Overview
 
-### Phase 1: Database (Railway / PlanetScale)
-1. Create a MySQL database instance.
-2. Import the schema from `backend/database.sql`.
-3. Note down the connection string/credentials.
+### Database (Railway)
+- Type: MySQL
+- Public Networking: Enabled for external access.
 
-### Phase 2: Backend (Render / Railway)
-1. Connect your GitHub repo.
-2. Set the root directory to `backend`.
-3. Configure Env Vars:
-   - `PORT`: (Managed by platform)
-   - `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
-   - `FRONTEND_URL`: The URL of your deployed frontend.
-4. Build Command: `npm install`
-5. Start Command: `npm start`
+### Backend (Render)
+- Runtime: Node.js
+- Root Directory: `backend`
+- Env Vars: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `FRONTEND_URL`.
 
-### Phase 3: Frontend (Vercel / Netlify)
-1. Connect your GitHub repo.
-2. Set the root directory to `frontend`.
-3. If using Vercel, it will automatically serve the static files from the root.
-4. Ensure the `app.js` is updated if you need to point explicitly to the backend URL instead of relative paths.
+### Frontend (Vercel)
+- Framework: Static site
+- Root Directory: `frontend`
+- API Communication: Auto-detects production vs local environment.
 
 ## Technologies Used
-- **Backend:** Node.js, Express, MySQL (mysql2)
-- **Frontend:** HTML, CSS (Bootstrap), JavaScript
-- **Deployment:** Render (Backend), Railway (Database), Vercel (Frontend)
+- **Database:** MySQL
+- **Backend:** Node.js, Express, CORS, Dotenv
+- **Frontend:** HTML5, Bootstrap 5, Vanilla JavaScript (Fetch API)
+- **CI/CD:** GitHub, Vercel, Render
+
