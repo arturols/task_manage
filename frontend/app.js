@@ -32,7 +32,11 @@ const renderTasks = () => {
             <td>${task.id}</td>
             <td>${task.title}</td>
             <td>${task.priority}</td>
-            <td>${task.isCompleted}</td>
+            <td>
+                <span class="badge ${task.isCompleted ? 'bg-success' : 'bg-secondary'}">
+                    ${task.isCompleted ? 'Completed' : 'Pending'}
+                </span>
+            </td>
             <td>
                 <button class="btn btn-sm btn-primary" onclick="editTask(${task.id})">Edit</button>
                 <button class="btn btn-sm btn-danger" onclick="deleteTask(${task.id})">Delete</button>
@@ -51,7 +55,8 @@ taskForm.addEventListener('submit', async (event) =>{
 
     const taskData = {
         title: title,
-        priority: priority
+        priority: priority,
+        isCompleted: document.getElementById('task-completed').checked ? 1 : 0
     };
 
     const method = editingId ? 'PUT' : 'POST';
@@ -83,6 +88,7 @@ window.editTask = (id) => {
     if (task) {
         document.getElementById('task-title').value = task.title;
         document.getElementById('task-priority').value = task.priority;
+        document.getElementById('task-completed').checked = task.isCompleted == 1;
         editingId = id;
         
         // Change button text to indicate update mode
