@@ -1,6 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const db = require('./db');
-const cors = require('cors'); // CORS = Cross-Origin Resource Sharing
+const cors = require('cors');
+
+// Test database connection on startup
+db.query("SELECT 1")
+  .then(() => console.log("✅ Conectado a la base de datos de Railway con éxito."))
+  .catch(err => {
+    console.error("❌ Error de conexión a la base de datos:");
+    console.error(err);
+  });
 
 const app = express();
 
