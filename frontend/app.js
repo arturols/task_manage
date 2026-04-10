@@ -1,7 +1,7 @@
-// In production, change this to your deployed backend URL (e.g., https://your-backend.render.com/api/tasks/)
+// In production, change this to your deployed backend URL
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000/api/tasks/'
-    : '/api/tasks/'; // Use relative path if proxied, or full URL otherwise.
+    : 'https://task-manage-jead.onrender.com/api/tasks/';
 
 // CORS = utilizar recursos de otros dominios/servidores
 
