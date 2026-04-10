@@ -14,8 +14,12 @@ db.query("SELECT 1")
 const app = express();
 
 // Middlewares
+const allowedOrigin = process.env.FRONTEND_URL 
+    ? (process.env.FRONTEND_URL.startsWith('http') ? process.env.FRONTEND_URL : `https://${process.env.FRONTEND_URL}`)
+    : 'http://localhost:8080';
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+    origin: allowedOrigin,
     credentials: true
 }));
 
