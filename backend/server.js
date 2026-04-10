@@ -56,11 +56,13 @@ app.get('/api/tasks/:id', async (req, res) => {
 // POST create a new task
 app.post('/api/tasks/', async (req, res) => {
   const query = "INSERT INTO tasks(title, priority, isCompleted) VALUES(?, ?, ?)";
-  const { title, priority } = req.body;
+  const { title, priority, isCompleted } = req.body;
+  const completed = isCompleted ? 1 : 0;
   try {
-    const [result] = await db.query(query, [title, priority, false]);
-    res.status(201).json({ id: result.insertId, title, priority, isCompleted: false });
+    const [result] = await db.query(query, [title, priority, completed]);
+    res.status(201).json({ id: result.insertId, title, priority, isCompleted: !!completed });
   } catch (error) {
+    console.error("Error creating task:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -69,24 +71,32 @@ app.post('/api/tasks/', async (req, res) => {
 app.put('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
   const { title, priority, isCompleted } = req.body;
-  try{
+  const completed = isCompleted ? 1 : 0;
+  
+  try {
     const query = "UPDATE tasks SET title = ?, priority = ?, isCompleted = ? WHERE id = ?";
-    const [result] = await db.query(query,[title, priority, isCompleted, id]);
-    res.json({ id, title, priority, isCompleted });
+    const [result] = await db.query(query, [title, priority, completed, id]);
+    
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+    
+    res.json({ id, title, priority, isCompleted: !!completed });
   } catch (error) {
+    console.error("Error updating task:", error);
     res.status(500).json({ error: error.message });
   }
-
-;})
+});
 
 // DELETE a specific task
 app.delete('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
-  try{
+  try {
     const query = "DELETE FROM tasks WHERE id = ?";
     const [result] = await db.query(query, [id]);
     res.json({ message: `Task with id ${id} deleted` });
   } catch (error) {
+    console.error("Error deleting task:", error);
     res.status(500).json({ error: error.message });
   }
 });
